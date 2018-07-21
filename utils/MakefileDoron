@@ -1,0 +1,34 @@
+COMPILER=/usr/bin/gcc -c -g
+DIR=../
+CFLAG=-I$(DIR) -ansi -pedantic-errors -Wall -Wextra -DNDEBUG
+
+.PHONY: together
+.PHONY: indie
+together: p_queue.o utils.a
+indie: sorted_list.o p_queue.o dlist.o
+
+.PHONY: all_files
+all_files: p_queue.c pqueue_test.c p_queue.h sorted_list.c sorted_list.h dlist.c dlist.h p_queue.c p_queue.h
+	$(COMPILER) $(CFLAG) sorted_list_test.c sorted_list.c dlist.c p_queue.c 
+sorted_list.o: sorted_list.c sorted_list.h
+	$(COMPILER) $(CFLAG) sorted_list.c
+p_queue.o: p_queue.c p_queue.h
+	$(COMPILER) $(CFLAG) p_queue.c
+dlist.o: dlist.c dlist.h
+	$(COMPILER) $(CFLAG) dlist.c
+	
+
+
+	
+
+		
+utils.a:  
+	ar -cvq utils.a *.o
+	
+.PHONY: clean
+clean:
+	rm *.o *.a
+	
+.PHONY: clean indie
+clean indie:
+	rm sorted_list.o p_queue.o dlist.o *.a	

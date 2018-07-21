@@ -1,0 +1,51 @@
+COMPILER=/usr/bin/gcc
+DIR=../
+here=/home/doron/Proj/src/utils/sched
+CFLAG=-I$(DIR) -ansi -pedantic-errors -Wall -Wextra -DNDEBUG
+SHARE=$gcc -I$(DIR) -c -Wall -Werror -fpic
+
+release: scheduler.out
+
+
+scheduler.out: sch_test.c scheduler.c scheduler.h $(DIR)dlist.c $(DIR)dlist.h $(DIR)p_queue.c $(DIR)p_queue.h $(DIR)sorted_list.c $(DIR)sorted_list.h $(DIR)uid.c $(DIR)uid.h task.c task.h
+	$(COMPILER) $(CFLAG) scheduler.c sch_test.c $(DIR)dlist.c $(DIR)p_queue.c $(DIR)sorted_list.c $(DIR)uid.c task.c -o scheduler.out
+
+.PHONY: libsched.so
+libsched.so: sch_test.c scheduler.c scheduler.h $(DIR)dlist.c $(DIR)dlist.h $(DIR)p_queue.c $(DIR)p_queue.h $(DIR)sorted_list.c $(DIR)sorted_list.h $(DIR)uid.c $(DIR)uid.h task.c task.h
+	$(SHARE) scheduler.c sch_test.c $(DIR)dlist.c $(DIR)p_queue.c $(DIR)sorted_list.c $(DIR)uid.c task.c
+	
+	
+.PHONY: hello.so
+hello.so: hello.c 
+	$(SHARE) hello.c
+	
+	
+.PHONY: sharedlib
+sharedlib:	
+	gcc -shared -o libsched.so *.o
+	
+.PHONY: sharedlib
+
+
+sharedlib:	
+	gcc -shared -o libsched.so *.o	
+	
+.PHONY: runlib
+runlib:	
+	gcc -I$(DIR) -L$(here) -Wall -o test sch_test.c -lsched
+	
+.PHONY: clean
+clean:
+	rm scheduler.out
+.PHONY: cleanso
+clean:
+	rm *.so	
+
+.PHONY: testlibexport
+testlibexport:	
+	export LD_LIBRARY_PATH=/home/doron/Proj/src/utils/sched
+	
+.PHONY: cleanshared
+cleanshared:
+	rm *.so *.o	
+
