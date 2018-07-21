@@ -17,7 +17,7 @@ int main()
 {
     if(sizeof(size_t) < 8)
     {
-        puts("cant work");
+        puts("cant work here");
         return 0;
     }
     Knight(0, 0);
