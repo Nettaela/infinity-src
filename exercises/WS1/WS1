@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+/*
+a function that get an array of ints and prints corresponding string.
+*/
+
+/*function declaration*/
+void array_to_char(int *array[]); 
+
+int main()
+{
+    int helloOfHex[]={0x48, 0x65, 0x6c, 0x6c,0x6f, 0x20, /*hex numbers representation of "hello world"*/ 
+				      0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21, 0x0a,0x3}; 
+	
+
+
+	array_to_char(&helloOfHex);/*calls function*/
+    
+	return 0;
+}
+
+
+void array_to_char(int *array[])
+{
+   
+	printf("%s", array[]); /*prints char for every hex number*/
+    
+}
